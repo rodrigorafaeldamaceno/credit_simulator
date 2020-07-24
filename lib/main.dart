@@ -12,13 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Emplaca Web',
+      title: 'Credit Simulator',
       debugShowCheckedModeBanner: false,
       onGenerateRoute: Routes.generateRoute,
+      initialRoute: Routes.home,
       theme: ThemeData(
         fontFamily: 'Montserrat',
-        primaryColor: Colors.blue,
-        primarySwatch: Colors.blue,
+        primaryColor: Tema.corPrincipal,
+        primarySwatch: Tema.corPrincipal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         scaffoldBackgroundColor: Tema.fundo,
         appBarTheme: AppBarTheme(

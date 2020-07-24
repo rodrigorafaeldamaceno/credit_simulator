@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Tema {
-  static Color corPrincipal = Colors.blue;
+  static Color corPrincipal = Colors.deepPurple;
   static Color corSecundaria = Colors.green;
   static Color fundo = Color.fromRGBO(250, 250, 250, 1);
 
