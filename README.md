@@ -12,4 +12,4 @@ A new Flutter application to simulate and create tenders for sales services of c
 
 ![alt text](https://raw.githubusercontent.com/rodrigorafaeldamaceno/credit_simulator/master/assets/readme/proposta.jpeg)
 
-![alt text](https://raw.githubusercontent.com/rodrigorafaeldamaceno/credit_simulator/master/assets/readme/listagem.jpeg)
+![alt text](https://raw.githubusercontent.com/rodrigorafaeldamaceno/credit_simulator/master/assets/readme/propostas.jpeg)
