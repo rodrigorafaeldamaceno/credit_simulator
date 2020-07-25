@@ -1,6 +1,6 @@
 import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:credit_simulator/routes.dart';
-import 'package:credit_simulator/stores/simulador/simulador_store.dart';
+import 'package:credit_simulator/stores/propostas/propostas_store.dart';
 import 'package:credit_simulator/utils/classes/utils.dart';
 import 'package:credit_simulator/widgets/custom/buttons/custom_raised_button.dart';
 import 'package:credit_simulator/widgets/custom/text_field/custom_text_form_field.dart';
@@ -14,7 +14,7 @@ class SimulacaoScreen extends StatefulWidget {
 }
 
 class _SimulacaoScreenState extends State<SimulacaoScreen> {
-  SimuladorStore controller;
+  PropostasStore controller;
   Size size;
 
   final _cpfController = MaskedTextController(mask: '000.000.000-00');
@@ -26,7 +26,7 @@ class _SimulacaoScreenState extends State<SimulacaoScreen> {
   @override
   void initState() {
     super.initState();
-    controller = Provider.of<SimuladorStore>(context, listen: false);
+    controller = Provider.of<PropostasStore>(context, listen: false);
     controller.clearData();
     controller.buscarRamosDeAtividade();
     dados();
@@ -167,6 +167,11 @@ class _SimulacaoScreenState extends State<SimulacaoScreen> {
                   label: 'Próximo',
                   onTap: () {
                     if (!_formKey.currentState.validate()) return;
+
+                    controller.propostaData.cpf = _cpfController.text;
+                    controller.propostaData.email = _emailController.text;
+                    controller.propostaData.telefone = _telefoneController.text;
+                    controller.propostaData.ramo = controller.ramoSelecionado;
 
                     Navigator.pushNamed(context, Routes.taxas);
                   },

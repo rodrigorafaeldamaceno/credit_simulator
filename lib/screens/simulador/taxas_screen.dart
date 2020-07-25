@@ -1,5 +1,5 @@
 import 'package:credit_simulator/routes.dart';
-import 'package:credit_simulator/stores/simulador/simulador_store.dart';
+import 'package:credit_simulator/stores/propostas/propostas_store.dart';
 import 'package:credit_simulator/widgets/custom/buttons/custom_raised_button.dart';
 import 'package:credit_simulator/widgets/custom/text_field/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class TaxasScreen extends StatefulWidget {
 }
 
 class _TaxasScreenState extends State<TaxasScreen> {
-  SimuladorStore controller;
+  PropostasStore controller;
   Size size;
 
   final _debitoTaxaConcorrente = MoneyMaskedTextController(rightSymbol: ' %');
@@ -28,7 +28,7 @@ class _TaxasScreenState extends State<TaxasScreen> {
   @override
   void initState() {
     super.initState();
-    controller = Provider.of<SimuladorStore>(context, listen: false);
+    controller = Provider.of<PropostasStore>(context, listen: false);
     controller.buscarConcorrentes();
   }
 
@@ -206,11 +206,18 @@ class _TaxasScreenState extends State<TaxasScreen> {
                   onTap: () {
                     if (!_formKey.currentState.validate()) return;
 
-                    controller.debitoConcorrente =
-                        _debitoTaxaConcorrente.numberValue;
+                    controller.propostaData.concorrente =
+                        controller.concorrenteSelecionado;
 
-                    controller.creditoConcorrente =
+                    controller.propostaData.taxaDebitoConcorrente =
+                        _debitoTaxaConcorrente.numberValue;
+                    controller.propostaData.descontoDebitoConcorrente =
+                        _debitoDescontoConcorrente.numberValue;
+
+                    controller.propostaData.taxaCreditoConcorrente =
                         _creditoTaxaConcorrente.numberValue;
+                    controller.propostaData.descontoCreditoConcorrente =
+                        _creditoDescontoConcorrente.numberValue;
 
                     Navigator.pushNamed(context, Routes.proposta);
                   },

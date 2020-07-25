@@ -1,5 +1,6 @@
 import 'package:credit_simulator/models/proposta/proposta_model.dart';
 import 'package:credit_simulator/stores/propostas/propostas_store.dart';
+import 'package:credit_simulator/utils/classes/utils.dart';
 import 'package:credit_simulator/widgets/custom/card/custom_card.dart';
 import 'package:credit_simulator/widgets/descricao_valor.dart';
 import 'package:credit_simulator/widgets/linha_tabela.dart';
@@ -18,7 +19,7 @@ class _ListagemDePropostasScreenState extends State<ListagemDePropostasScreen> {
   @override
   void initState() {
     super.initState();
-    controller.listarPropostasEstatico();
+    controller.listarPropostas();
   }
 
   Widget cardTable(Proposta proposta) {
@@ -113,7 +114,10 @@ class _ListagemDePropostasScreenState extends State<ListagemDePropostasScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            DescricaoValor(descricao: 'Data: ', valor: proposta.data),
+            DescricaoValor(
+              descricao: 'Data: ',
+              valor: Utils.converterDataComHora(proposta.data),
+            ),
             SizedBox(
               height: 8,
             ),

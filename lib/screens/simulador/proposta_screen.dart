@@ -1,5 +1,5 @@
 import 'package:credit_simulator/routes.dart';
-import 'package:credit_simulator/stores/simulador/simulador_store.dart';
+import 'package:credit_simulator/stores/propostas/propostas_store.dart';
 import 'package:credit_simulator/widgets/custom/buttons/custom_raised_button.dart';
 import 'package:credit_simulator/widgets/custom/card/custom_card.dart';
 import 'package:credit_simulator/widgets/custom/dialogs/custom_show_dialog.dart';
@@ -15,12 +15,12 @@ class PropostaScreen extends StatefulWidget {
 }
 
 class _PropostaScreenState extends State<PropostaScreen> {
-  SimuladorStore controller;
+  PropostasStore controller;
 
   @override
   void initState() {
     super.initState();
-    controller = Provider.of<SimuladorStore>(context, listen: false);
+    controller = Provider.of<PropostasStore>(context, listen: false);
     controller.fazerSimulacao();
   }
 
@@ -63,7 +63,7 @@ class _PropostaScreenState extends State<PropostaScreen> {
               ),
             ),
             Text(
-              '${controller.debitoConcorrente} %',
+              '${controller.propostaData.taxaDebitoConcorrente} %',
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -73,7 +73,8 @@ class _PropostaScreenState extends State<PropostaScreen> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: controller.propostaDebito > controller.debitoConcorrente
+                color: controller.propostaDebito >
+                        controller.propostaData.taxaDebitoConcorrente
                     ? Colors.red
                     : Colors.green,
               ),
@@ -87,7 +88,7 @@ class _PropostaScreenState extends State<PropostaScreen> {
               ),
             ),
             Text(
-              '${controller.creditoConcorrente} %',
+              '${controller.propostaData.taxaCreditoConcorrente} %',
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -97,10 +98,10 @@ class _PropostaScreenState extends State<PropostaScreen> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color:
-                    controller.propostaCredito > controller.creditoConcorrente
-                        ? Colors.red
-                        : Colors.green,
+                color: controller.propostaCredito >
+                        controller.propostaData.taxaCreditoConcorrente
+                    ? Colors.red
+                    : Colors.green,
               ),
             ),
           ]),
@@ -129,41 +130,75 @@ class _PropostaScreenState extends State<PropostaScreen> {
           height: 40,
         ),
         cardTable(),
-        CustomRaisedButton(
-          label: 'Aceitar proposta',
-          onTap: () {
-            customShowDialogInfo(
-              context: context,
-              textoTitulo: 'Aceite do cliente',
-              textoConteudo: 'Proposta gravada no banco de dados!',
-              funcaoContinuar: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Routes.home,
-                  (route) => false,
-                );
-              },
-            );
-          },
-        ),
-        CustomRaisedButton(
-          label: 'Recusar',
-          color: Colors.grey,
-          corLabel: Colors.white,
-          onTap: () {
-            customShowDialog(
-              context: context,
-              textoTitulo: 'Cancelamento',
-              textoConteudo: 'Confirma o cancelamento da proposta?',
-              funcaoContinuar: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Routes.home,
-                  (route) => false,
-                );
-                controller.clearData();
-              },
-            );
+        Observer(
+          builder: (_) {
+            return controller.gravandoProposta
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
+                    children: <Widget>[
+                      CustomRaisedButton(
+                        label: 'Aceitar proposta',
+                        onTap: () async {
+                          controller.gravandoProposta = true;
+
+                          final success = await controller.gravarProposta();
+
+                          controller.gravandoProposta = false;
+
+                          success
+                              ? customShowDialogInfo(
+                                  context: context,
+                                  textoTitulo: 'Aceite do cliente',
+                                  dismiss: false,
+                                  textoConteudo:
+                                      'Proposta gravada no banco de dados!',
+                                  funcaoContinuar: () async {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      Routes.home,
+                                      (route) => false,
+                                    );
+                                  },
+                                )
+                              : customShowDialogInfo(
+                                  context: context,
+                                  textoTitulo: 'Falha',
+                                  dismiss: false,
+                                  textoConteudo: 'Falha ao gravar!',
+                                  funcaoContinuar: () async {
+                                    Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      Routes.home,
+                                      (route) => false,
+                                    );
+                                  },
+                                );
+                        },
+                      ),
+                      CustomRaisedButton(
+                        label: 'Recusar',
+                        color: Colors.grey,
+                        corLabel: Colors.white,
+                        onTap: () {
+                          customShowDialog(
+                            context: context,
+                            textoTitulo: 'Cancelamento',
+                            textoConteudo:
+                                'Confirma o cancelamento da proposta?',
+                            funcaoContinuar: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                Routes.home,
+                                (route) => false,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  );
           },
         ),
       ],

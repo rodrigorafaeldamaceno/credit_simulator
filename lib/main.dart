@@ -1,11 +1,14 @@
 import 'package:credit_simulator/routes.dart';
-import 'package:credit_simulator/stores/simulador/simulador_store.dart';
+import 'package:credit_simulator/stores/propostas/propostas_store.dart';
 import 'package:credit_simulator/utils/tema/tema.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await initializeDateFormatting('pt_BR');
 
   runApp(MyApp());
 }
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        Provider<SimuladorStore>(create: (_) => SimuladorStore()),
+        Provider<PropostasStore>(create: (_) => PropostasStore()),
       ],
       child: MaterialApp(
         title: 'Credit Simulator',
