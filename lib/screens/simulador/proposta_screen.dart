@@ -6,6 +6,7 @@ import 'package:credit_simulator/widgets/custom/dialogs/custom_show_dialog.dart'
 import 'package:credit_simulator/widgets/custom/dialogs/custom_show_dialog_info.dart';
 import 'package:credit_simulator/widgets/linha_tabela.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class PropostaScreen extends StatefulWidget {
@@ -108,6 +109,123 @@ class _PropostaScreenState extends State<PropostaScreen> {
     );
   }
 
+  Widget cardTaxasPermitidas() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Taxas da simulação permitidas',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text(
+            'Todas as taxas simuladas são permitidas.\nOfereça ao seu cliente'),
+        SizedBox(
+          height: 40,
+        ),
+        cardTable(),
+        CustomRaisedButton(
+          label: 'Aceitar proposta',
+          onTap: () {
+            customShowDialogInfo(
+              context: context,
+              textoTitulo: 'Aceite do cliente',
+              textoConteudo: 'Proposta gravada no banco de dados!',
+              funcaoContinuar: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.home,
+                  (route) => false,
+                );
+              },
+            );
+          },
+        ),
+        CustomRaisedButton(
+          label: 'Recusar',
+          color: Colors.grey,
+          corLabel: Colors.white,
+          onTap: () {
+            customShowDialog(
+              context: context,
+              textoTitulo: 'Cancelamento',
+              textoConteudo: 'Confirma o cancelamento da proposta?',
+              funcaoContinuar: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.home,
+                  (route) => false,
+                );
+                controller.clearData();
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget cardTaxasNaoPermitidas() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Taxas da simulação não permitidas',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text(
+            'A(s) taxa(s) simulada(s) não foi(ram) permitida(s) pois não atinge(m) o mínimo requisitado.'),
+        SizedBox(
+          height: 40,
+        ),
+        cardTable(),
+        SizedBox(
+          height: 8,
+        ),
+        Text(
+            'O valor de taxa mínima para débito é 2,0%, enquanto para crédito é 3,0%'),
+        CustomRaisedButton(
+          label: 'Reajustar',
+          corLabel: Colors.white,
+          onTap: () {
+            Navigator.pop(context);
+          },
+        ),
+        CustomRaisedButton(
+          label: 'Cancelar proposta',
+          color: Colors.grey,
+          corLabel: Colors.white,
+          onTap: () {
+            customShowDialog(
+              context: context,
+              textoTitulo: 'Cancelamento',
+              textoConteudo: 'Confirma o cancelamento da proposta?',
+              funcaoContinuar: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Routes.home,
+                  (route) => false,
+                );
+                controller.clearData();
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,63 +236,13 @@ class _PropostaScreenState extends State<PropostaScreen> {
       body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Taxas da simulação permitidas',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                  'Todas as taxas simuladas são permitidas.\nOfereça ao seu cliente'),
-              SizedBox(
-                height: 40,
-              ),
-              cardTable(),
-              CustomRaisedButton(
-                label: 'Proposta aceita',
-                onTap: () {
-                  customShowDialogInfo(
-                    context: context,
-                    textoTitulo: 'Aceite do cliente',
-                    textoConteudo: 'Proposta gravada no banco de dados!',
-                    funcaoContinuar: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Routes.home,
-                        (route) => false,
-                      );
-                    },
-                  );
-                },
-              ),
-              CustomRaisedButton(
-                label: 'Recusar',
-                color: Colors.grey,
-                corLabel: Colors.white,
-                onTap: () {
-                  customShowDialog(
-                    context: context,
-                    textoTitulo: 'Confirmação',
-                    textoConteudo: 'Confirma o cancelamento da proposta?',
-                    funcaoContinuar: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        Routes.home,
-                        (route) => false,
-                      );
-                      controller.clearData();
-                    },
-                  );
-                },
-              ),
-            ],
+          child: Observer(
+            builder: (_) {
+              return controller.propostaCredito < 3 &&
+                      controller.propostaDebito < 2
+                  ? cardTaxasNaoPermitidas()
+                  : cardTaxasPermitidas();
+            },
           ),
         ),
       ),

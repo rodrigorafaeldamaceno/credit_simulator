@@ -18,7 +18,9 @@ abstract class _SimuladorStoreBase with Store {
   @observable
   ObservableList<String> concorrentes = ObservableList<String>();
 
+  @observable
   double propostaDebito;
+  @observable
   double propostaCredito;
 
   double debitoConcorrente;

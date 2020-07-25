@@ -73,6 +73,45 @@ mixin _$SimuladorStore on _SimuladorStoreBase, Store {
     });
   }
 
+  final _$propostaDebitoAtom = Atom(name: '_SimuladorStoreBase.propostaDebito');
+
+  @override
+  double get propostaDebito {
+    _$propostaDebitoAtom.reportRead();
+    return super.propostaDebito;
+  }
+
+  @override
+  set propostaDebito(double value) {
+    _$propostaDebitoAtom.reportWrite(value, super.propostaDebito, () {
+      super.propostaDebito = value;
+    });
+  }
+
+  final _$propostaCreditoAtom =
+      Atom(name: '_SimuladorStoreBase.propostaCredito');
+
+  @override
+  double get propostaCredito {
+    _$propostaCreditoAtom.reportRead();
+    return super.propostaCredito;
+  }
+
+  @override
+  set propostaCredito(double value) {
+    _$propostaCreditoAtom.reportWrite(value, super.propostaCredito, () {
+      super.propostaCredito = value;
+    });
+  }
+
+  final _$fazerSimulacaoAsyncAction =
+      AsyncAction('_SimuladorStoreBase.fazerSimulacao');
+
+  @override
+  Future<dynamic> fazerSimulacao() {
+    return _$fazerSimulacaoAsyncAction.run(() => super.fazerSimulacao());
+  }
+
   final _$buscarRamosDeAtividadeAsyncAction =
       AsyncAction('_SimuladorStoreBase.buscarRamosDeAtividade');
 
@@ -95,17 +134,6 @@ mixin _$SimuladorStore on _SimuladorStoreBase, Store {
       ActionController(name: '_SimuladorStoreBase');
 
   @override
-  Future<dynamic> fazerSimulacao() {
-    final _$actionInfo = _$_SimuladorStoreBaseActionController.startAction(
-        name: '_SimuladorStoreBase.fazerSimulacao');
-    try {
-      return super.fazerSimulacao();
-    } finally {
-      _$_SimuladorStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic clearData() {
     final _$actionInfo = _$_SimuladorStoreBaseActionController.startAction(
         name: '_SimuladorStoreBase.clearData');
@@ -122,7 +150,9 @@ mixin _$SimuladorStore on _SimuladorStoreBase, Store {
 ramoSelecionado: ${ramoSelecionado},
 ramosDeAtividades: ${ramosDeAtividades},
 concorrenteSelecionado: ${concorrenteSelecionado},
-concorrentes: ${concorrentes}
+concorrentes: ${concorrentes},
+propostaDebito: ${propostaDebito},
+propostaCredito: ${propostaCredito}
     ''';
   }
 }
