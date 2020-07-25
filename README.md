@@ -1,16 +1,16 @@
-# credit_simulator
+# Credit
 
-A new Flutter application.
+A new Flutter application to simulate and create tenders for sales services of credit products.
 
-## Getting Started
+## 
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+* [Backend](https://github.com/rodrigorafaeldamaceno/credit_simulator_backend)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![alt text](https://raw.githubusercontent.com/rodrigorafaeldamaceno/clima_hoje/master/assets/readme/home.jpeg)
+![alt text](https://raw.githubusercontent.com/rodrigorafaeldamaceno/clima_hoje/master/assets/readme/infos.jpeg)
+![alt text](https://raw.githubusercontent.com/rodrigorafaeldamaceno/clima_hoje/master/assets/readme/taxas.jpeg)
+![alt text](https://raw.githubusercontent.com/rodrigorafaeldamaceno/clima_hoje/master/assets/readme/proposta.jpeg)
+![alt text](https://raw.githubusercontent.com/rodrigorafaeldamaceno/clima_hoje/master/assets/readme/listagem.jpeg)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
