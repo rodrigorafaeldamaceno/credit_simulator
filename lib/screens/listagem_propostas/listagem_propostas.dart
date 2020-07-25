@@ -1,7 +1,10 @@
+import 'package:credit_simulator/models/proposta/proposta_model.dart';
+import 'package:credit_simulator/stores/propostas/propostas_store.dart';
 import 'package:credit_simulator/widgets/custom/card/custom_card.dart';
 import 'package:credit_simulator/widgets/descricao_valor.dart';
 import 'package:credit_simulator/widgets/linha_tabela.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class ListagemDePropostasScreen extends StatefulWidget {
   @override
@@ -10,7 +13,15 @@ class ListagemDePropostasScreen extends StatefulWidget {
 }
 
 class _ListagemDePropostasScreenState extends State<ListagemDePropostasScreen> {
-  Widget cardTable() {
+  final controller = PropostasStore();
+
+  @override
+  void initState() {
+    super.initState();
+    controller.listarPropostasEstatico();
+  }
+
+  Widget cardTable(Proposta proposta) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Table(
@@ -49,19 +60,19 @@ class _ListagemDePropostasScreenState extends State<ListagemDePropostasScreen> {
               ),
             ),
             Text(
-              '',
+              proposta.taxaDebitoConcorrente.toStringAsFixed(2),
               style: TextStyle(
                 fontSize: 10,
               ),
             ),
             Text(
-              '',
+              proposta.taxaDebito.toStringAsFixed(2),
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
-                // color: controller.propostaDebito > controller.debitoConcorrente
-                //     ? Colors.red
-                //     : Colors.green,
+                color: proposta.taxaDebito > proposta.taxaDebitoConcorrente
+                    ? Colors.red
+                    : Colors.green,
               ),
             ),
           ]),
@@ -73,20 +84,19 @@ class _ListagemDePropostasScreenState extends State<ListagemDePropostasScreen> {
               ),
             ),
             Text(
-              '',
+              proposta.taxaCreditoConcorrente.toStringAsFixed(2),
               style: TextStyle(
                 fontSize: 10,
               ),
             ),
             Text(
-              '',
+              proposta.taxaCredito.toStringAsFixed(2),
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
-                // color:
-                //     controller.propostaCredito > controller.creditoConcorrente
-                //         ? Colors.red
-                //         : Colors.green,
+                color: proposta.taxaCredito > proposta.taxaCreditoConcorrente
+                    ? Colors.red
+                    : Colors.green,
               ),
             ),
           ]),
@@ -95,7 +105,7 @@ class _ListagemDePropostasScreenState extends State<ListagemDePropostasScreen> {
     );
   }
 
-  Widget cardProposta() {
+  Widget cardProposta(Proposta proposta) {
     return CustomCard(
       margin: EdgeInsets.only(bottom: 20),
       child: Container(
@@ -103,24 +113,28 @@ class _ListagemDePropostasScreenState extends State<ListagemDePropostasScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            DescricaoValor(descricao: 'Email: ', valor: 'teste@gmail.com'),
+            DescricaoValor(descricao: 'Data: ', valor: proposta.data),
             SizedBox(
               height: 8,
             ),
-            DescricaoValor(descricao: 'Telefone: ', valor: 'teste@gmail.com'),
+            DescricaoValor(descricao: 'Email: ', valor: proposta.email),
             SizedBox(
               height: 8,
             ),
-            DescricaoValor(descricao: 'CPF: ', valor: 'teste@gmail.com'),
+            DescricaoValor(descricao: 'Telefone: ', valor: proposta.telefone),
+            SizedBox(
+              height: 8,
+            ),
+            DescricaoValor(descricao: 'CPF: ', valor: proposta.cpf),
             SizedBox(
               height: 8,
             ),
             DescricaoValor(
-                descricao: 'Ramo de atividade: ', valor: 'teste@gmail.com'),
+                descricao: 'Ramo de atividade: ', valor: proposta.ramo),
             SizedBox(
               height: 10,
             ),
-            cardTable()
+            cardTable(proposta)
           ],
         ),
       ),
@@ -148,12 +162,21 @@ class _ListagemDePropostasScreenState extends State<ListagemDePropostasScreen> {
               SizedBox(
                 height: 40,
               ),
-              ListView.builder(
-                itemCount: 10,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return cardProposta();
+              Observer(
+                builder: (_) {
+                  if (controller.carregandoPropostas)
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+
+                  return ListView.builder(
+                    itemCount: controller.propostas.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return cardProposta(controller.propostas[index]);
+                    },
+                  );
                 },
               ),
             ],
