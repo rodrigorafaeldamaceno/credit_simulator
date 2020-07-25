@@ -1,3 +1,4 @@
+import 'package:credit_simulator/routes.dart';
 import 'package:credit_simulator/stores/simulador/simulador_store.dart';
 import 'package:credit_simulator/widgets/custom/buttons/custom_raised_button.dart';
 import 'package:credit_simulator/widgets/custom/text_field/custom_text_form_field.dart';
@@ -80,6 +81,9 @@ class _TaxasScreenState extends State<TaxasScreen> {
                       DropdownButtonFormField<String>(
                         value: controller.ramoSelecionado,
                         hint: Text('Selecione um concorrente'),
+                        validator: (value) {
+                          if (value == null) return 'Selecione um concorrente';
+                        },
                         items: controller.concorrentes
                             .map<DropdownMenuItem<String>>(
                                 (value) => DropdownMenuItem<String>(
@@ -109,7 +113,7 @@ class _TaxasScreenState extends State<TaxasScreen> {
                         height: 20,
                       ),
                       Text(
-                        'Debito - Informe as taxas do concorrente',
+                        'Débito - Informe as taxas do concorrente',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -124,9 +128,12 @@ class _TaxasScreenState extends State<TaxasScreen> {
                           Expanded(
                             child: CustomTextFormField(
                               controller: _debitoTaxaConcorrente,
-                              hintText: '',
                               textInputType: TextInputType.number,
                               label: 'Taxa*',
+                              validator: (value) {
+                                if (_debitoTaxaConcorrente.numberValue == 0)
+                                  return 'Informe a taxa';
+                              },
                             ),
                           ),
                           SizedBox(
@@ -135,9 +142,12 @@ class _TaxasScreenState extends State<TaxasScreen> {
                           Expanded(
                             child: CustomTextFormField(
                               controller: _debitoDescontoConcorrente,
-                              hintText: '',
                               textInputType: TextInputType.number,
                               label: 'Desconto*',
+                              validator: (value) {
+                                if (_debitoDescontoConcorrente.numberValue == 0)
+                                  return 'Informe o desconto';
+                              },
                             ),
                           ),
                         ],
@@ -146,7 +156,7 @@ class _TaxasScreenState extends State<TaxasScreen> {
                         height: 40,
                       ),
                       Text(
-                        'Credito - Informe as taxas do concorrente',
+                        'Crédito - Informe as taxas do concorrente',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -161,9 +171,12 @@ class _TaxasScreenState extends State<TaxasScreen> {
                           Expanded(
                             child: CustomTextFormField(
                               controller: _creditoTaxaConcorrente,
-                              hintText: '',
                               textInputType: TextInputType.number,
                               label: 'Taxa*',
+                              validator: (value) {
+                                if (_creditoTaxaConcorrente.numberValue == 0)
+                                  return 'Informe a taxa';
+                              },
                             ),
                           ),
                           SizedBox(
@@ -172,9 +185,12 @@ class _TaxasScreenState extends State<TaxasScreen> {
                           Expanded(
                             child: CustomTextFormField(
                               controller: _creditoDescontoConcorrente,
-                              hintText: '',
                               textInputType: TextInputType.number,
                               label: 'Desconto*',
+                              validator: (value) {
+                                if (_creditoDescontoConcorrente.numberValue ==
+                                    0) return 'Informe o desconto';
+                              },
                             ),
                           ),
                         ],
@@ -186,8 +202,12 @@ class _TaxasScreenState extends State<TaxasScreen> {
                   height: 20,
                 ),
                 CustomRaisedButton(
-                  label: 'Próximo',
-                  onTap: () {},
+                  label: 'Simular',
+                  onTap: () {
+                    if (!_formKey.currentState.validate()) return;
+
+                    Navigator.pushNamed(context, Routes.proposta);
+                  },
                 )
               ],
             ),
