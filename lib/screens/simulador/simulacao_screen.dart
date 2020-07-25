@@ -27,7 +27,15 @@ class _SimulacaoScreenState extends State<SimulacaoScreen> {
   void initState() {
     super.initState();
     controller = Provider.of<SimuladorStore>(context, listen: false);
+    controller.clearData();
     controller.buscarRamosDeAtividade();
+    // dados();
+  }
+
+  dados() {
+    _cpfController.text = '08930924956';
+    _telefoneController.text = '45999377492';
+    _emailController.text = 'teste@gmail.com';
   }
 
   @override

@@ -91,6 +91,31 @@ mixin _$SimuladorStore on _SimuladorStoreBase, Store {
         .run(() => super.buscarConcorrentes());
   }
 
+  final _$_SimuladorStoreBaseActionController =
+      ActionController(name: '_SimuladorStoreBase');
+
+  @override
+  Future<dynamic> fazerSimulacao() {
+    final _$actionInfo = _$_SimuladorStoreBaseActionController.startAction(
+        name: '_SimuladorStoreBase.fazerSimulacao');
+    try {
+      return super.fazerSimulacao();
+    } finally {
+      _$_SimuladorStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic clearData() {
+    final _$actionInfo = _$_SimuladorStoreBaseActionController.startAction(
+        name: '_SimuladorStoreBase.clearData');
+    try {
+      return super.clearData();
+    } finally {
+      _$_SimuladorStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

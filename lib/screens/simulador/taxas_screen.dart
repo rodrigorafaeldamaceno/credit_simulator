@@ -79,7 +79,7 @@ class _TaxasScreenState extends State<TaxasScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       DropdownButtonFormField<String>(
-                        value: controller.ramoSelecionado,
+                        value: controller.concorrenteSelecionado,
                         hint: Text('Selecione um concorrente'),
                         validator: (value) {
                           if (value == null) return 'Selecione um concorrente';
@@ -205,6 +205,12 @@ class _TaxasScreenState extends State<TaxasScreen> {
                   label: 'Simular',
                   onTap: () {
                     if (!_formKey.currentState.validate()) return;
+
+                    controller.debitoConcorrente =
+                        _debitoTaxaConcorrente.numberValue;
+
+                    controller.creditoConcorrente =
+                        _creditoTaxaConcorrente.numberValue;
 
                     Navigator.pushNamed(context, Routes.proposta);
                   },

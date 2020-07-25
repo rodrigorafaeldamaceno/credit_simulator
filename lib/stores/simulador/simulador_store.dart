@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:mobx/mobx.dart';
 part 'simulador_store.g.dart';
 
@@ -15,6 +17,21 @@ abstract class _SimuladorStoreBase with Store {
 
   @observable
   ObservableList<String> concorrentes = ObservableList<String>();
+
+  double propostaDebito;
+  double propostaCredito;
+
+  double debitoConcorrente;
+  double creditoConcorrente;
+
+  @action
+  Future fazerSimulacao() async {
+    double doubleInRange(Random source, num start, num end) =>
+        source.nextDouble() * (end - start) + start;
+
+    propostaCredito = doubleInRange(Random(), 4, 6);
+    propostaDebito = doubleInRange(Random(), 1, 2.7);
+  }
 
   @action
   Future<List<String>> buscarRamosDeAtividade() async {
@@ -51,5 +68,18 @@ abstract class _SimuladorStoreBase with Store {
     concorrentes.addAll(novosConcorrentes);
 
     return concorrentes;
+  }
+
+  @action
+  clearData() {
+    ramoSelecionado = null;
+    concorrenteSelecionado = null;
+    propostaCredito = null;
+    propostaDebito = null;
+    creditoConcorrente = null;
+    debitoConcorrente = null;
+
+    concorrentes.clear();
+    ramosDeAtividades.clear();
   }
 }
