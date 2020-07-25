@@ -1,0 +1,55 @@
+import 'package:mobx/mobx.dart';
+part 'simulador_store.g.dart';
+
+class SimuladorStore = _SimuladorStoreBase with _$SimuladorStore;
+
+abstract class _SimuladorStoreBase with Store {
+  @observable
+  String ramoSelecionado;
+
+  @observable
+  ObservableList<String> ramosDeAtividades = ObservableList<String>();
+
+  @observable
+  String concorrenteSelecionado;
+
+  @observable
+  ObservableList<String> concorrentes = ObservableList<String>();
+
+  @action
+  Future<List<String>> buscarRamosDeAtividade() async {
+    var atividades = [
+      'Atividade 1',
+      'Atividade 2',
+      'Atividade 3',
+      'Atividade 4',
+      'Atividade 5',
+      'Atividade 6',
+      'Atividade 7',
+    ];
+
+    ramosDeAtividades.clear();
+    ramosDeAtividades.addAll(atividades);
+
+    return ramosDeAtividades;
+  }
+
+  @action
+  Future<List<String>> buscarConcorrentes() async {
+    var novosConcorrentes = [
+      'Concorrente 1',
+      'Concorrente 2',
+      'Concorrente 3',
+      'Concorrente 4',
+      'Concorrente 5',
+      'Concorrente 6',
+      'Concorrente 7',
+      'Outro',
+    ];
+
+    concorrentes.clear();
+    concorrentes.addAll(novosConcorrentes);
+
+    return concorrentes;
+  }
+}

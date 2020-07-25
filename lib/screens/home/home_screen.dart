@@ -1,3 +1,4 @@
+import 'package:credit_simulator/routes.dart';
 import 'package:credit_simulator/widgets/custom/buttons/custom_raised_button.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,9 @@ class HomeScreen extends StatelessWidget {
             children: <Widget>[
               CustomRaisedButton(
                 label: 'Nova simulação',
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.simulador);
+                },
               ),
               CustomRaisedButton(
                 label: 'Visualizar propostas aceitas',
