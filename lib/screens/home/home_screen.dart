@@ -29,7 +29,9 @@ class HomeScreen extends StatelessWidget {
                 label: 'Visualizar propostas aceitas',
                 color: Colors.grey,
                 corLabel: Colors.white,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.listagemDePropostas);
+                },
               ),
             ],
           ),

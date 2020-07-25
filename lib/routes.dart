@@ -1,4 +1,5 @@
 import 'package:credit_simulator/screens/home/home_screen.dart';
+import 'package:credit_simulator/screens/listagem_propostas/listagem_propostas.dart';
 import 'package:credit_simulator/screens/simulador/proposta_screen.dart';
 import 'package:credit_simulator/screens/simulador/simulacao_screen.dart';
 import 'package:credit_simulator/screens/simulador/taxas_screen.dart';
@@ -11,6 +12,7 @@ class Routes {
   static const String simulador = '/simulador';
   static const String taxas = '/taxas';
   static const String proposta = '/proposta';
+  static const String listagemDePropostas = '/listagem_propostas';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -28,6 +30,9 @@ class Routes {
         break;
       case proposta:
         return MaterialPageRoute(builder: (_) => PropostaScreen());
+        break;
+      case listagemDePropostas:
+        return MaterialPageRoute(builder: (_) => ListagemDePropostasScreen());
         break;
       default:
         _errorRoute();

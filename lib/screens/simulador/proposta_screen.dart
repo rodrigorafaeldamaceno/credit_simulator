@@ -4,6 +4,7 @@ import 'package:credit_simulator/widgets/custom/buttons/custom_raised_button.dar
 import 'package:credit_simulator/widgets/custom/card/custom_card.dart';
 import 'package:credit_simulator/widgets/custom/dialogs/custom_show_dialog.dart';
 import 'package:credit_simulator/widgets/custom/dialogs/custom_show_dialog_info.dart';
+import 'package:credit_simulator/widgets/linha_tabela.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,35 +23,6 @@ class _PropostaScreenState extends State<PropostaScreen> {
     controller.fazerSimulacao();
   }
 
-  _criarLinhaTable({Text label1, Text label2, Text label3}) {
-    return TableRow(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
-      children: [
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: label1,
-          ),
-        ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: label2,
-          ),
-        ),
-        Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: label3,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget cardTable() {
     return CustomCard(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -59,43 +31,43 @@ class _PropostaScreenState extends State<PropostaScreen> {
           horizontalInside: BorderSide(color: Colors.grey[300]),
         ),
         children: <TableRow>[
-          _criarLinhaTable(
-            label1: Text(
+          linhaTabela([
+            Text(
               'Tipo',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            label2: Text(
+            Text(
               'Concorrente',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            label3: Text(
+            Text(
               'Proposta',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          _criarLinhaTable(
-            label1: Text(
+          ]),
+          linhaTabela([
+            Text(
               'Débito',
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
-            label2: Text(
+            Text(
               '${controller.debitoConcorrente} %',
               style: TextStyle(
                 fontSize: 14,
               ),
             ),
-            label3: Text(
+            Text(
               '${controller.propostaDebito.toStringAsFixed(2)} %',
               style: TextStyle(
                 fontSize: 14,
@@ -105,21 +77,21 @@ class _PropostaScreenState extends State<PropostaScreen> {
                     : Colors.green,
               ),
             ),
-          ),
-          _criarLinhaTable(
-            label1: Text(
+          ]),
+          linhaTabela([
+            Text(
               'Crédito',
               style: TextStyle(
                 fontSize: 14,
               ),
             ),
-            label2: Text(
+            Text(
               '${controller.creditoConcorrente} %',
               style: TextStyle(
                 fontSize: 14,
               ),
             ),
-            label3: Text(
+            Text(
               '${controller.propostaCredito.toStringAsFixed(2)} %',
               style: TextStyle(
                 fontSize: 14,
@@ -130,7 +102,7 @@ class _PropostaScreenState extends State<PropostaScreen> {
                         : Colors.green,
               ),
             ),
-          ),
+          ]),
         ],
       ),
     );
@@ -173,7 +145,11 @@ class _PropostaScreenState extends State<PropostaScreen> {
                     textoTitulo: 'Aceite do cliente',
                     textoConteudo: 'Proposta gravada no banco de dados!',
                     funcaoContinuar: () {
-                      Navigator.pushNamed(context, Routes.home);
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        Routes.home,
+                        (route) => false,
+                      );
                     },
                   );
                 },
@@ -188,7 +164,12 @@ class _PropostaScreenState extends State<PropostaScreen> {
                     textoTitulo: 'Confirmação',
                     textoConteudo: 'Confirma o cancelamento da proposta?',
                     funcaoContinuar: () {
-                      Navigator.pushNamed(context, Routes.home);
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        Routes.home,
+                        (route) => false,
+                      );
+                      controller.clearData();
                     },
                   );
                 },

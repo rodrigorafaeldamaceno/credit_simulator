@@ -29,7 +29,7 @@ class _SimulacaoScreenState extends State<SimulacaoScreen> {
     controller = Provider.of<SimuladorStore>(context, listen: false);
     controller.clearData();
     controller.buscarRamosDeAtividade();
-    // dados();
+    dados();
   }
 
   dados() {
