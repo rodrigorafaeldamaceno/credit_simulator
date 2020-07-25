@@ -17,6 +17,7 @@ class CustomTextFormField extends StatelessWidget {
       this.onTap,
       this.focusNode,
       this.validator,
+      this.label,
       this.enabled: true,
       this.margin: const EdgeInsets.all(0)});
 
@@ -27,7 +28,7 @@ class CustomTextFormField extends StatelessWidget {
   final int maxLines;
   final EdgeInsets margin;
   final bool obscureText;
-  final Function onChanged;
+  final Function(String) onChanged;
   final Widget prefixIcon;
   final double elevation;
   final Widget suffixIcon;
@@ -36,6 +37,7 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode focusNode;
   final Function(String) validator;
   final bool enabled;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,7 @@ class CustomTextFormField extends StatelessWidget {
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
         hintText: hintText,
+        labelText: label,
         hintStyle: TextStyle(color: corHintText),
         filled: true,
         fillColor: Colors.white,

@@ -8,7 +8,7 @@ class CustomRaisedButton extends StatelessWidget {
       this.color,
       this.icon,
       this.elevation: 2,
-      this.expaded: false,
+      this.width,
       this.corLabel: Colors.white});
 
   final Color color;
@@ -17,12 +17,12 @@ class CustomRaisedButton extends StatelessWidget {
   final Function onTap;
   final IconData icon;
   final String label;
-  final bool expaded;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: expaded ? double.infinity : 200,
+      width: width ?? double.infinity,
       height: 80,
       padding: EdgeInsets.all(20),
       child: RaisedButton(
