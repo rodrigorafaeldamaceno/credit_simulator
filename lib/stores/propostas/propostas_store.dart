@@ -117,7 +117,7 @@ abstract class _PropostasStoreBase with Store {
     final result = await data.listarPropostas();
 
     propostas.clear();
-    propostas.addAll(result);
+    propostas.addAll(result.reversed.toList());
 
     carregandoPropostas = false;
 
